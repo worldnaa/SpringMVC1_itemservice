@@ -12,17 +12,24 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import javax.annotation.PostConstruct;
 import java.util.List;
 
+// 컨트롤러 로직 : itemRepository 에서 모든 상품을 조회한 다음에 모델에 담는다. 그리고 뷰 템플릿을 호출한다.
+
 @Controller
 @RequestMapping("/basic/items")
-@RequiredArgsConstructor // final이 붙은 애로 아래 주석친 생성자를 만들어준다
+@RequiredArgsConstructor // final 이 붙은 멤버 변수만 사용해서 생성자를 자동으로 만들어준다.
 public class BasicItemController {
 
     private final ItemRepository itemRepository;
 
-//    @Autowired //스프링에서 생성자가 하나면 @Autowired 생략가능
-//    public BasicItemController(ItemRepository itemRepository) {
-//        this.itemRepository = itemRepository; //주입
-//    }
+    /*////////////// @RequiredArgsConstructor 사용 시 아래와 같은 생성자 자동 생성 ////////////////
+
+    // 생성자가 딱 1개만 있으면 스프링이 해당 생성자에 @Autowired 로 의존관계를 주입해준다 (@Autowired 생략가능)
+    // 따라서 final 키워드를 빼면 안된다! 그러면 ItemRepository 의존관계 주입이 안된다
+
+    public BasicItemController(ItemRepository itemRepository) {
+          this.itemRepository = itemRepository; //주입
+    }
+    ////////////////////////////////////////////////////////////////////////////////////////*/
 
     @GetMapping
     public String items(Model model) {
@@ -109,15 +116,13 @@ public class BasicItemController {
         return "redirect:/basic/items/{itemId}";
     }
 
-
     /**
      * 테스트용 데이터 추가
+     * @PostConstruct : 해당 빈의 의존관계가 모두 주입되고 나면 초기화 용도로 호출된다.
      */
     @PostConstruct
     public void init() {
         itemRepository.save(new Item("itemA", 10000, 10));
         itemRepository.save(new Item("itemB", 20000, 20));
     }
-
-
 }

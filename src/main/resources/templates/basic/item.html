@@ -1,9 +1,21 @@
 <!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"> <!--타임리프 사용 선언-->
 <head>
     <meta charset="utf-8">
+
+    <!-- [ 속성변경 - th:href ]
+    - href="value1" 을 th:href="value2" 의 값으로 변경한다.
+    - 타임리프 뷰 템플릿을 거치게 되면 원래 값을 th:xxx 값으로 변경한다. 만약 값이 없다면 새로 생성한다.
+    - HTML을 그대로 볼 땐 href 속성이 사용, 뷰 템플릿을 거치면 th:href 의 값이 href 로 대체 (동적 변경) -->
+
+    <!-- [ URL 링크 표현식 - @{...} ]
+    - 타임리프는 URL 링크를 사용하는 경우 @{...} 를 사용한다. 이것을 'URL 링크 표현식' 이라한다.
+    - URL 링크 표현식을 사용하면 서블릿 컨텍스트를 자동으로 포함한다. -->
+
+    <!-- 타임리프를 사용하여 절대경로로 수정 / URL 링크 사용 시 @{} 문법 사용 -->
     <link href="../css/bootstrap.min.css"
           th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+
     <style>
         .container {
             max-width: 560px;
@@ -41,6 +53,17 @@
     <hr class="my-4">
     <div class="row">
         <div class="col">
+
+            <!-- [ 속성변경 - th:onclick ] -->
+            <!-- [ 리터럴 대체 문법 - |...| ]
+            - 타임리프에서 문자와 표현식 등은 분리되어 있기 때문에 더해서 사용해야 한다.
+            - 리터럴 대체 문법을 사용하면, 더하기 없이 편리하게 사용할 수 있다. -->
+
+            <!-- [ URL 링크 표현식2 - @{...} ]
+            - URL 링크 표현식을 사용하면 경로를 템플릿처럼 편리하게 사용할 수 있다.
+            - 경로 변수( {itemId}) 뿐만 아니라 쿼리 파라미터도 생성한다.
+            - ex) th:href="@{/basic/items/{itemId}(itemId=${item.id}, query='test')}"
+            - ex) 생성 링크 : http://localhost:8080/basic/items/1?query=test -->
             <button class="w-100 btn btn-primary btn-lg"
                     onclick="location.href='editForm.html'"
                     th:onclick="|location.href='@{/basic/items/{itemId}/edit/(itemId=${item.id})}'|"
