@@ -1,12 +1,12 @@
 <!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"> <!--타임리프 사용 선언-->
 <head>
     <meta charset="utf-8">
 
     <!-- [ 속성변경 - th:href ]
     - href="value1" 을 th:href="value2" 의 값으로 변경한다.
     - 타임리프 뷰 템플릿을 거치게 되면 원래 값을 th:xxx 값으로 변경한다. 만약 값이 없다면 새로 생성한다.
-    - HTML을 그대로 볼 땐 href 속성이 사용, 뷰 템플릿을 거치면 th:href 의 값이 href 로 대체 (동적 변경) -->
+    - HTML 을 그대로 볼 땐 href 속성이 사용, 뷰 템플릿을 거치면 th:href 의 값이 href 로 대체 (동적 변경) -->
 
     <!-- [ URL 링크 표현식 - @{...} ]
     - 타임리프는 URL 링크를 사용하는 경우 @{...} 를 사용한다. 이것을 'URL 링크 표현식' 이라한다.
@@ -32,7 +32,16 @@
 
     <h4 class="mb-3">상품 입력</h4>
 
-    <!-- 컨트롤러에서 경로가 같으면(Get/Post로 구분) th:action="/basic/items/add" 에서 "/basic/items/add" 생략가능-->
+    <!-- [ 속성변경 - th:action ]
+    - HTML form 에서 action 에 값이 없으면 현재 URL 에 데이터를 전송한다.
+    - 상품 등록 폼의 URL 과 실제 상품 등록을 처리하는 URL 을 똑같이 맞추고, HTTP 메서드로 두 기능을 구분한다.
+    - 상품 등록 폼  : GET /basic/items/add
+    - 상품 등록 처리 : POST /basic/items/add
+    - 이렇게 하면 하나의 URL 로 등록 폼과, 등록 처리를 깔끔하게 처리할 수 있다.
+
+    - 컨트롤러에서 경로가 같으면 Get / Post 로 구분
+    - th:action="/basic/items/add" 에서 "/basic/items/add" 생략가능 -->
+
     <form action="item.html" th:action method="post">
         <div>
             <label for="itemName">상품명</label>
@@ -59,6 +68,8 @@
                 <!-- [ 리터럴 대체 문법 - |...| ]
                 - 타임리프에서 문자와 표현식 등은 분리되어 있기 때문에 더해서 사용해야 한다.
                 - 리터럴 대체 문법을 사용하면, 더하기 없이 편리하게 사용할 수 있다. -->
+
+                <!-- 취소 시 상품 목록으로 이동한다. -->
                 <button class="w-100 btn btn-secondary btn-lg"
                         onclick="location.href='items.html'"
                         th:onclick="|location.href='@{/basic/items}'|"
